@@ -5,13 +5,12 @@ import AdminHome from './AdminHome';
 import Sidebar from "../sidebar/Sidebar";
 import { Grid, MuiThemeProvider } from '@material-ui/core';
 import CreateClients from './CreateClients';
-// import dashboardStyles from './DashboardStyles';
+import ClientHome from './ClientHome';
 
 const Dashboard = (props) => {
-    // const classes = dashboardStyles();
     const classes = makeStyles();
     const [isOpen, setIsOpen] = useState(true);
-    const [display, setDisplay] = useState('Home');
+    const [display, setDisplay] = useState('adminDashboard');
 
     const displayHandler = (display) => {
         setDisplay(display);
@@ -27,10 +26,10 @@ const Dashboard = (props) => {
                 <Grid container>
                     <MuiThemeProvider theme={theme}>
                         <Grid item sm={12} md={3} lg={3} xl={2} xs={12} >
-                            <Sidebar displayHandler={displayHandler} />
+                            <Sidebar displayHandler={displayHandler} role={props.role} />
                         </Grid>
                         <Grid item md={9} lg={9} xl={10} >
-                            client dashboard
+                            <ClientHome/>
                         </Grid>
                     </MuiThemeProvider>
                 </Grid>
@@ -39,7 +38,7 @@ const Dashboard = (props) => {
         else {
             return (
                 <Fragment>
-                    {(display === 'Home') && <AdminHome />}
+                    {(display === 'adminDashboard') && <div></div>}
                     {(display === 'CreateClients') && <div className={classes.centerDiv} ><CreateClients /></div>}
                 </Fragment>
             )
@@ -51,11 +50,11 @@ const Dashboard = (props) => {
                 <Grid container>
                     <MuiThemeProvider theme={theme}>
                         <Grid item sm={12} md={3} lg={3} xl={2} xs={12} >
-                            <Sidebar displayHandler={displayHandler} />
+                            <Sidebar displayHandler={displayHandler} role={props.role} />
                         </Grid>
 
                         <Grid item sm={12} xs={12} md={9} lg={9} xl={10} >
-                            {(display === 'Home') && <AdminHome />}
+                            {(display === 'adminDashboard') && <AdminHome />}
                             {(display === 'CreateClients') && <div className={classes.centerDiv} ><CreateClients /></div>}
                         </Grid>
                     </MuiThemeProvider>
@@ -65,7 +64,7 @@ const Dashboard = (props) => {
         else {
             return (
                 <Fragment>
-                    {(display === 'Home') && <AdminHome />}
+                    {(display === 'adminDashboard') && <AdminHome />}
                     {(display === 'CreateClients') && <div className={classes.centerDiv} ><CreateClients /></div>}
                 </Fragment>
             )
@@ -76,9 +75,9 @@ const Dashboard = (props) => {
     return (
         <Fragment>
             <div className={classes.topContainer}>
-                <Topbar isOpenHandler={isOpenHandler} isLoggedout={props.isLoggedout} isLoggedin={props.isLoggedin}  isOpen={isOpen} />
+                <Topbar isOpenHandler={isOpenHandler} isLoggedout={props.isLoggedout} isLoggedin={props.isLoggedin} isOpen={isOpen} />
                 <div className={classes.container}>
-                    {props.userType !== 'admin' ? adminDisp() : clientDisp()}
+                    {props.role === 'admin' ? adminDisp() : clientDisp()}
                 </div>
             </div>
         </Fragment>

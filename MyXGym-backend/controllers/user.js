@@ -186,14 +186,14 @@ module.exports.signin = async (req, res) => {
     const validPassword = await bcrypt.compare(password, admin.rows[0].password);
     if (!validPassword) return res.status(401).json(`The password you entered is incorrect!`);
 
-    const role = admin.rows[0].role ? 'admin' : 'client';
+    const role = admin.rows[0].role;
 
     const payload = {
         id: admin.rows[0].user_id,
         role: role
     }
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1hr" });
-    return res.json({ token: token });
+    return res.json({ token: token, role: role });
 };
 
 
@@ -245,7 +245,7 @@ module.exports.adminAuth = async (req, res, next) => {
 module.exports.verifyToken = (req, res) => {
     try {
         console.log(req.user)
-        return res.json({ 'user_id': req.user.id, 'role': req.user.role });
+        return res.json({ status: true });
     } catch (err) {
         return res.status(500).send('Server Error!');
     }

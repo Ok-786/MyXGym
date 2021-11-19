@@ -46,7 +46,8 @@ const Signin = (props) => {
 
                 if (parseRes.token) {
                     localStorage.setItem('token', parseRes.token);
-                    props.handleSignin(true);
+                    localStorage.setItem('role', parseRes.role);
+                    props.handleSignin(true, parseRes.role);
                     toast.success("Login Successfull");
                     history.push('/dashboard');
                 } else {

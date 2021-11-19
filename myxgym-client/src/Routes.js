@@ -13,8 +13,9 @@ toast.configure();
 
 
 const Routes = () => {
-    const check = localStorage.token? true: false;
+    const check = localStorage.token ? true : false;
     const [isLoggedin, setIsLoggedin] = useState(check);
+    const [role, setRole] = useState('');
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -23,29 +24,30 @@ const Routes = () => {
                 headers: { token: localStorage.token }
             });
             const resParse = await response.json();
-            localStorage.setItem('')
-            
-            resParse.user_id? setIsLoggedin(true): setIsLoggedin(false);
+            setRole(localStorage.role);
+            resParse.status ? setIsLoggedin(true) : setIsLoggedin(false);
         }
         fetchApi();
-    }, );
+    });
 
-    const handleSignin = (loggedin) => {
+    const handleSignin = (loggedin, role) => {
         setIsLoggedin(loggedin);
+        setRole(role);
     }
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         toast.success("Successfully Loggedout!")
         handleSignin(false);
     }
-    
+
     if (isLoggedin) {
         return (
             <Fragment>
                 <Router>
                     <Switch>
-                        <Route path='/dashboard' render={props => <Dashboard isLoggedout={handleLogout} isLoggedin={isLoggedin} {...props} />} exact />
+                        <Route path='/dashboard' render={props => <Dashboard isLoggedout={handleLogout} isLoggedin={isLoggedin} role={role} {...props} />} exact />
                         <Route path='/create-clients' render={props => <CreateClients isLoggedout={handleLogout} isLoggedin={isLoggedin} {...props} />} exact />
                         <Redirect to='/dashboard' />
                     </Switch>

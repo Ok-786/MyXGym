@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { AccountCircle, Assistant, Home, Timeline, NoteAdd, PersonAdd, DonutLarge, KeyboardArrowRight, KeyboardArrowDown } from '@material-ui/icons';
+import { AccountCircle, Assistant, Timeline, NoteAdd, PersonAdd, DonutLarge, KeyboardArrowRight, KeyboardArrowDown, Dashboard } from '@material-ui/icons';
 import SidebarStyles from './SidebarStyles';
 import { useState } from 'react';
 import { ManageAccounts } from '@mui/icons-material';
@@ -40,12 +40,12 @@ const Sidebar = (props) => {
                                 Dashboard
                             </h3>
                             <List className={classes.sidebarList}>
-                                {['Home'].map((text, index) => (
+                                {['Dashboard'].map((text, index) => (
                                     <ListItem button className={classes.sidebarListItem} key={text} onClick={() => {
-                                        props.displayHandler("Home");
+                                        props.displayHandler('adminDashboard');
                                     }}>
                                         <ListItemIcon >
-                                            {index === 0 ? <Home className={classes.sidebarIcon} /> : <div></div>}
+                                            {index === 0 ? <Dashboard className={classes.sidebarIcon} /> : <div></div>}
                                             {index === 1 ? <Timeline className={classes.sidebarIcon} /> : <div></div>}
                                         </ListItemIcon>
                                         <ListItemText primary={text} />
@@ -76,27 +76,31 @@ const Sidebar = (props) => {
                             </List>
                             <hr style={{ borderTop: '1px solid gray', opacity: '.2', marginBlockEnd: '5vh' }} />
                         </div>
-                        <div className={classes.sidebarMenu}>
-                            <h3 className={classes.sidebarTitle}>
-                                Client Area
-                            </h3>
-                            <List className={classes.sidebarList}>
-                                {['Create New Clients', 'Manage Clients', 'Clients Progress', 'Consulatations'].map((text, index) => (
-                                    <ListItem button className={classes.sidebarListItem} key={text}>
-                                        <ListItemIcon >
-                                            {index === 0 ? <PersonAdd className={classes.sidebarIcon} /> : <div></div>}
-                                            {index === 1 ? <ManageAccounts className={classes.sidebarIcon} /> : <div></div>}
-                                            {index === 2 ? <DonutLarge className={classes.sidebarIcon} /> : <div></div>}
-                                            {index === 3 ? <NoteAdd className={classes.sidebarIcon} /> : <div></div>}
-                                        </ListItemIcon>
 
-                                        {index === 0 ? <ListItemText primary={text} onClick={() => {
-                                            props.displayHandler("CreateClients");
-                                        }} /> : <ListItemText primary={text} />}
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </div>
+                        {
+                            props.role === 'admin' &&
+                            <div className={classes.sidebarMenu}>
+                                <h3 className={classes.sidebarTitle}>
+                                    Client Area
+                                </h3>
+                                <List className={classes.sidebarList}>
+                                    {['Create New Clients', 'Manage Clients', 'Clients Progress', 'Consulatations'].map((text, index) => (
+                                        <ListItem button className={classes.sidebarListItem} key={text}>
+                                            <ListItemIcon >
+                                                {index === 0 ? <PersonAdd className={classes.sidebarIcon} /> : <div></div>}
+                                                {index === 1 ? <ManageAccounts className={classes.sidebarIcon} /> : <div></div>}
+                                                {index === 2 ? <DonutLarge className={classes.sidebarIcon} /> : <div></div>}
+                                                {index === 3 ? <NoteAdd className={classes.sidebarIcon} /> : <div></div>}
+                                            </ListItemIcon>
+
+                                            {index === 0 ? <ListItemText primary={text} onClick={() => {
+                                                props.displayHandler("CreateClients");
+                                            }} /> : <ListItemText primary={text} />}
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </div>
+                        }
                     </div>
                     {/* <Button variant="outlined" color="secondary" style={{ marginInline: '30%' }} onClick={() => { history.push("/Signup"); localStorage.removeItem("Login User") }}>Logout</Button> */}
                 </div>

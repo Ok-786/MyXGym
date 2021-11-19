@@ -1,15 +1,12 @@
 import React from 'react';
 import makeStyles from './TopbarStyles';
-// import { Settings } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import Button from "@mui/material/Button";
-// import { IconButton } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import AvatarMenu from './AvatarMenu';
 
 const Topbar = (props) => {
-    const history = useHistory();
+    // const history = useHistory();
     const classes = makeStyles();
     return (
         <div className={classes.topbar}>
